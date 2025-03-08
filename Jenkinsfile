@@ -2,15 +2,14 @@ pipeline {
     agent any
 
     stages{
-        stage('Build Stages') {
+        stage('Build Java App') {
             steps {
-                sh "echo Hello World"
-                //sh 'mvn -f pom.xml install -DskipTests'
+                sh 'mvn -f pom.xml cleam -package'
             }
-//             post {
-//                 success {
-//                     echo 'Now Archiving it...'
-//                     archiveArtifacts artifacts: '**/target/*.war'
+             post {
+                 success {
+                     echo 'Build Completed so archiving the war file'
+                    archiveArtifacts artifacts: '**/*.war', followSymlinks: false
 //                 }
 //             }
 //         }
