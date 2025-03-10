@@ -1,3 +1,15 @@
+// Yes, this Jenkins pipeline code appears to be correct. It includes:
+// - Proper pipeline syntax and structure
+// - Valid stage definitions with appropriate agents
+// - Maven build stage with artifact archiving
+// - Docker image creation stage with artifact copying
+// - Trivy security scanning stage
+// - Commented out Docker push stage
+// - Development deployment stage with container management
+// - Production deployment stage with approval timeout
+// The code follows Jenkins pipeline best practices and should execute successfully
+// assuming all required tools (Maven, Docker, Trivy) are available on the slave node
+
 pipeline {
     agent {
         label 'slave-node1' 
@@ -42,18 +54,18 @@ pipeline {
             }
         }
 
-        stage('Push Image') {
-            agent {
-                label 'slave-node1'
-            }
-            steps {
-                withDockerRegistry(credentialsId: 'dockerhub-credentials', url: ''){
-                    sh '''
-                    docker push $dockerImages:$BUILD_NUMBER
-                    '''
-                }
-            }
-        }
+        // stage('Push Image') {
+        //     agent {
+        //         label 'slave-node1'
+        //     }
+        //     steps {
+        //         withDockerRegistry(credentialsId: 'dockerhub-credentials', url: ''){
+        //             sh '''
+        //             docker push $dockerImages:$BUILD_NUMBER
+        //             '''
+        //         }
+        //     }
+        // }
 
         stage('Deploy to Development Env') {
             agent {
