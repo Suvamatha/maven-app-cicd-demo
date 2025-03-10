@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'slave-node1' 
+    }
     environment {
         dockerImages = "suvam1/jenkins-project"
     }
@@ -28,6 +30,12 @@ pipeline {
                 echo "creating docker image "
                 sh 'whoami'
                 sh "docker build -t $dockerImages:$BUILD_NUMBER ."
+            }
+        }
+        stage('Trivy Scan for Docker Image'){
+            steps {
+                sh 'echo'
+                sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL --ignore-unfixed $dockerImages:$BUILD_NUMBER'
             }
         }
 
